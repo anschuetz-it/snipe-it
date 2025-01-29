@@ -65,7 +65,7 @@ return [
     'low_inventory_alert' => 'Es gibt :count Artikel, der unter dem Minimum ist oder kurz davor ist.|Es gibt :count Artikel, die unter dem Minimum sind oder kurz davor sind.',
     'min_QTY' => 'Mindestmenge',
     'name' => 'Name',
-    'new_item_checked' => 'Ein neuer Gegenstand wurde unter Ihrem Namen ausgecheckt. Details finden Sie weiter unten.',
+    'new_item_checked' => 'Wir freuen uns, Ihnen mitzuteilen, dass Ihr Asset angekommen ist und gerade konfiguriert wird. Sie werden bald mehr erfahren.',
     'notes' => 'Notizen',
     'password' => 'Passwort',
     'password_reset' => 'Passwort zurücksetzen',
