@@ -36,7 +36,12 @@
           </div>
       @else
           <!-- we are creating a new asset - let people use more than one asset tag -->
-          <div class="col-md-7 col-sm-12">
+	  @if( isset($lastAssetTag) )
+              <div class="col-md-7 col-sm-12">
+                  <b>Last Asset-Tag: {{ $lastAssetTag }}</b>
+    	      </div>
+	  @endif
+	  <div class="col-md-7 col-sm-12">
               <input class="form-control" type="text" name="asset_tags[1]" id="asset_tag" value="{{ old('asset_tags.1', \App\Models\Asset::autoincrement_asset()) }}" required>
               {!! $errors->first('asset_tags', '<span class="alert-msg"><i class="fas fa-times"></i> :message</span>') !!}
               {!! $errors->first('asset_tag', '<span class="alert-msg"><i class="fas fa-times"></i> :message</span>') !!}

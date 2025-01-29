@@ -66,6 +66,26 @@ class AssetsController extends Controller
         return view('hardware/index')->with('company', $company);
     }
 
+    /*
+     * Filter last asset from database
+     * Filter for asset limited to XX799999 because of
+     * pre 2000 assets
+     *
+     * @author [S. Wessel]
+     * @since [v6.2.3] custom by Anschütz
+     * @return one asset dataset
+     */
+    public function getLastAssetTag()
+    {
+        return DB::connection('mysql_unrestricted')
+            ->table('assets')
+            ->where('asset_tag', 'regexp', '^[A-Za-z]{2}[0-7][0-9]{5}$')
+            ->selectRaw('*, SUBSTR(assets.asset_tag, 3) AS numerical')
+            ->orderBy('numerical', 'desc')
+            ->first()
+            ->asset_tag;
+    }
+
     /**
      * Returns a view that presents a form to create a new asset.
      *
@@ -74,13 +94,15 @@ class AssetsController extends Controller
      * @param Request $request
      * @internal param int $model_id
      */
+
     public function create(Request $request) : View
     {
         $this->authorize('create', Asset::class);
         $view = view('hardware/edit')
             ->with('statuslabel_list', Helper::statusLabelList())
             ->with('item', new Asset)
-            ->with('statuslabel_types', Helper::statusTypeList());
+            ->with('statuslabel_types', Helper::statusTypeList())
+	    ->with('lastAssetTag', $this->getLastAssetTag());
 
         if ($request->filled('model_id')) {
             $selected_model = AssetModel::find($request->input('model_id'));
@@ -645,7 +667,8 @@ class AssetsController extends Controller
         return view('hardware/edit')
             ->with('statuslabel_list', Helper::statusLabelList())
             ->with('statuslabel_types', Helper::statusTypeList())
-            ->with('item', $cloned);
+            ->with('item', $cloned)
+	    ->with('lastAssetTag', $this->getLastAssetTag());
     }
 
     /**
